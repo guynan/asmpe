@@ -21,5 +21,9 @@ small_mult: small_mult.asm
 	nasm -f elf64 -o small_mult.o small_mult.asm
 	gcc small_mult.o -nostartfiles
 
+largest_prime_fac: prime.o largest_prime_fac.asm
+	nasm -f elf64 -o largest_prime_fac.o largest_prime_fac.asm
+	gcc largest_prime_fac.o prime.o -nostartfiles
+
 clean:
 	$(RM) *.o
