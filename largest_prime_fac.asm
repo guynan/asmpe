@@ -8,40 +8,44 @@ section .text
 
 _start:
 
-        xor     rcx, rcx        ; Counter
+;        xor     rcx, rcx        ; Counter
+        mov     rcx, 1
         xor     rbx, rbx
-        inc     rcx
+        xor     r9, r9
+;        inc     rcx
 
 iter_factors:
 
         mov     rbx, rcx
-        imul    rbx, rbx
+        imul    qword rbx, rbx
         
         mov     rax, MAX_
         cmp     rbx, rax
-        jge     print_result
+        jg      print_result            ; rcx * rcx > MAX
 
         xor     rdx, rdx
-        idiv    rcx
 
-        test    rdx, rdx
-        jnz     next_factor
+        mov     rbx, rcx
+        push    rcx
+        idiv    qword rbx
+        pop     rcx
 
+        cmp     rdx, 0
+        jne     next_factor
+
+        mov     edi, ecx
         xor     rax, rax
-        mov     rdi, rcx
 
         push    rcx
         call    asm_prime
         pop     rcx
 
-        cmp     rax, 0
-        jne     next_factor
-
-        mov     r9, rcx
+        test    eax, eax
+        cmovnz  r9, rcx
 
 next_factor:
 
-        add     rcx, 2
+        inc     rcx
         jmp     iter_factors
 
 
@@ -52,6 +56,8 @@ print_result:
         xor     rax, rax
 
         call    printf      
+
+end_exec:
 
 	mov	rax, 60
 	mov	rdi, 0
