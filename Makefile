@@ -25,6 +25,10 @@ largest_prime_fac: prime.o largest_prime_fac.asm
 	nasm -f elf64 -o largest_prime_fac.o largest_prime_fac.asm
 	gcc largest_prime_fac.o prime.o -nostartfiles
 
+sum_sq_diff:
+	nasm -f elf64 -o sum_sq_diff.o sum_sq_diff.asm
+	gcc sum_sq_diff.o -nostartfiles
+
 amicable_num: amicable_num.asm
 	nasm -f elf64 -o amicable_num.o amicable_num.asm
 	gcc amicable_num.o -nostartfiles
