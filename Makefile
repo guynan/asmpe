@@ -25,5 +25,8 @@ largest_prime_fac: prime.o largest_prime_fac.asm
 	nasm -f elf64 -o largest_prime_fac.o largest_prime_fac.asm
 	gcc largest_prime_fac.o prime.o -nostartfiles
 
+amicable_num: amicable_num.asm
+	nasm -f elf64 -o amicable_num.o amicable_num.asm
+	gcc amicable_num.o -nostartfiles
 clean:
 	$(RM) *.o
