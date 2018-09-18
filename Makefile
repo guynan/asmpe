@@ -1,40 +1,25 @@
 
-
+EULER_SRC=euler.asm
+EULER_OBJ=euler.o
+ASMC=nasm
+TARGET_ARCH=elf64
+ASM_FLAGS= -f $(TARGET_ARCH)
 
 all: link
 
+$(EULER_OBJ): $(EULER_SRC)
+	$(ASMC) $(ASM_FLAGS) -o $(EULER_OBJ) $(EULER_SRC)
 
-prime.o: prime.asm
-	nasm -f elf64 -o prime.o prime.asm
+%.o: %.asm
+	$(ASMC) $(ASM_FLAGS) $< -o $@
 
-main.o: main.asm
-	nasm -f elf64 -o main.o main.asm
+%: %.o $(EULER_OBJ)
+	gcc $< $(EULER_OBJ) -nostartfiles
 
-link: main.o prime.o
-	gcc main.o prime.o -nostartfiles
+#	IF you want named executables...
+#	I don't, I reflexivley ./a.[TAB]
+#	gcc $< $(EULER_OBJ) -o $@ -nostartfiles
 
-mult35: mult35.asm
-	nasm -f elf64 -o mult35.o mult35.asm
-	gcc mult35.o -nostartfiles
-
-small_mult: small_mult.asm
-	nasm -f elf64 -o small_mult.o small_mult.asm
-	gcc small_mult.o -nostartfiles
-
-largest_prime_fac: prime.o largest_prime_fac.asm
-	nasm -f elf64 -o largest_prime_fac.o largest_prime_fac.asm
-	gcc largest_prime_fac.o prime.o -nostartfiles
-
-summation_primes: prime.o summation_primes.asm
-	nasm -f elf64 -o summation_primes.o summation_primes.asm
-	gcc summation_primes.o prime.o -nostartfiles
-
-sum_sq_diff:
-	nasm -f elf64 -o sum_sq_diff.o sum_sq_diff.asm
-	gcc sum_sq_diff.o -nostartfiles
-
-amicable_num: amicable_num.asm
-	nasm -f elf64 -o amicable_num.o amicable_num.asm
-	gcc amicable_num.o -nostartfiles
 clean:
-	$(RM) *.o
+	$(RM) *.o a.out
+
