@@ -47,6 +47,45 @@ is_prime:
 end_prime:
         ret
 
+; Returns 1 in rax if the number is a palindrome
+palindrome:
+
+        call    intrev
+        xor     rbx, rbx
+        cmp     rax, rdi
+        je      _not_palindrome
+
+        inc     rbx
+
+_not_palindrome:
+
+        mov     rax, rbx
+
+        ret
+
+
+intrev:
+
+        xor     rcx, rcx
+        mov     rax, rdi
+
+_intrev_next_integer:
+
+        imul    ecx, 10
+        xor     rdx, rdx
+
+        mov     rbx, 10
+        idiv    ebx
+
+        ; edx is the remainder
+        add     ecx, edx
+        cmp     eax, 0
+        jne     _intrev_next_integer
+
+        mov     rax, rcx
+        ret
+
+
 section	.data
 
 ; vim: ft=nasm :
